@@ -2,7 +2,8 @@
 
 ## Idea 1 : Grocery Items Recommendation Systems and Basket Data Analysis
 
-### Groceries are a staple and repetitive part of our daily life. We often tend to gravitate towards similar grocery products/brands as most of our friends/family and with the help of  user-user collaborative filtering, one can filter out the items that a user might like based on the reaction of similar users. We can also use *Apriori Algorithm* for the below insights for the below problems,if X & Y are frequently bought together:
+### Groceries are a staple and repetitive part of our daily life. We often tend to gravitate towards similar grocery products/brands as most of our friends/family and with the help of  user-user collaborative filtering, one can filter out the items that a user might like based on the reaction of similar users. 
+### We can also use *Apriori Algorithm* for the below insights for the below problems,if X & Y are frequently bought together:
 
 #### * Both X and Y can be placed on the same shelf, so that buyers of one item would be prompted to buy the other.
 
