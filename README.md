@@ -24,4 +24,8 @@
 
 ## Idea 3 : Sentiment Analysis of r/WallStreetBets sub reddit posts and correlation with $GME stock prices movements
 
-### Recently, a few thousand Redditors tried to take on the Wall Street stalwarts by try to buy and hold GME stock options against a big short position held by major conglomerates on Wall Street and a sentiment analysis on the sub reddit posts data could help investigate the correlation between GME stock price vs. the growing subp-reddit user opinions to figure out the complete story.
+### Introduction - Recently, a few thousand Redditors tried to take on the Wall Street stalwarts by try to buy and hold GME stock options against a big short position held by major conglomerates on Wall Street. A sentiment analysis on the sub reddit posts data could help investigate the correlation between GME stock price vs. the growing subp-reddit user opinions to figure out the complete story.
+### Approach - We will be extracting the data from reddit using praw. PRAW is a Python wrapper for the Reddit API, which enables you to pull data from subreddits. We will be investigating the correlation between GME stock price and growing sub-reddit user opinion. From than we can predict the stock price. A dashboard will be created to show the correlation analysis and complete story.
+### Dataset - https://www.kaggle.com/gpreda/reddit-wallstreetsbets-posts?select=reddit_wsb.csv
+
+
