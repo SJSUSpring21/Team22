@@ -17,13 +17,13 @@
 #### Dataset : https://www.kaggle.com/c/instacart-market-basket-analysis/data
 
 
-## Idea 2 : Using US Facts.org Immigration data to predict H1-B Visa approvals/rejections 
+## Idea 2 : Using US Facts.org Immigration data to predict the impact of H1-B Visa approvals/rejections 
 
-### Introduction -  H-1B visas are a category of employment-based, non-immigrant visas for temporary foreign workers in the United States. For a foreign national to apply for H1-B visa, a US employer must offer them a job and submit a petition for a H-1B visa to the US immigration department. A prediction on H1B Visa approval/rejection could prevent the impact it can have on an employee or employer.
+### Introduction -  H-1B visas are a category of employment-based, non-immigrant visas for temporary foreign workers in the United States. For a foreign national to apply for H1-B visa, a US employer must offer them a job and submit a petition for a H-1B visa to the US immigration department. Immigrant workers have made huge contributions to indutries like Information Technology, Manufacturing, Biopharmaceutical Sciences, etc. Denial of H1-B visa to such immigration workers can have a large impact on technological innovations and scientific breakthroughs. A prediction on H1B Visa approval/rejection could prevent the impact it can have on an employee or employer.
 
-### Approach -  We propose to build a dashboard to enter user data and use those features to plug into our model, trained on Immigration data from USFacts.org to predict whether their H1-B visa would get approved/rejected and also suggest possible key metrics for approval/rejection for future applicants.
+### Approach -  We propose to build a dashboard to enter user data and use those features to plug into our model, trained on Immigration data from USFacts.org to predict whether their H1-B visa would get approved/rejected and also suggest possible key metrics for approval/rejection for future applicants. The dashboard would also be able to predict the impact on the employer based on the past visa grant/denial rate in their industry.
 
-### Dataset - https://usafacts.org/issues/immigration/
+### Dataset - https://usafacts.org/issues/immigration/, https://www.kaggle.com/nsharan/h-1b-visa
 
 
 
