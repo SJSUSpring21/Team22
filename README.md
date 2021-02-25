@@ -15,7 +15,7 @@
 
 ### Approach : We propose to build a user dashboard for ordering groceries where their friends and family's purchases would recommend them similar grocery products/brands using   user-user collaborative filtering and admin dashboard using *Apriori Algorithm*, with key metrics like Support, Confidence and Lift
 
-#### Dataset : https://www.kaggle.com/c/instacart-market-basket-analysis/data
+### Dataset : https://www.kaggle.com/c/instacart-market-basket-analysis/data
 
 
 ## Idea 2 : Using US Facts.org Immigration data to predict the impact of H1-B Visa approvals/rejections 
