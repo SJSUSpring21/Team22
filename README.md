@@ -8,5 +8,8 @@
 
 ### dataset - https://www.kaggle.com/c/favorita-grocery-sales-forecasting/data
 
+### Architecture Diagram
+![ArchitectureDiagram (3)](https://user-images.githubusercontent.com/64019111/110425885-f2453a80-8059-11eb-8135-824a4bea6da7.jpg)
+
 
 
