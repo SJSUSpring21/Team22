@@ -15,7 +15,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Edit in the file <code>src/App.js</code> and save to reload.
         </p>
         <p>The current time is {currentTime}.</p>
       </header>
