@@ -34,6 +34,7 @@ class Dashboard extends React.Component {
       outletIdentifier: "",
       category: "",
       itemNumber: "",
+      options: [],
     },
     time: {
       startDate: new Date(),
@@ -46,6 +47,28 @@ class Dashboard extends React.Component {
   //   startDate: new Date(),
   //   endDate: new Date(),
   //   key: "selection",
+  // };
+  handleOutletChangeFetchCategories = async (e) => {
+    const data = { ...this.state.data };
+    data[e.currentTarget.name] = e.currentTarget.value;
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ outlet: e.currentTarget.value }),
+    };
+    let response = await fetch(
+      "/getcategoryBasedOnOutletIdentifier",
+      requestOptions
+    );
+    response = await response.json();
+    console.log(response.data);
+    data.options = response.data;
+    this.setState({ data });
+  };
+
+  // handleOutletChange = async (e) => {
+  //   await this.getCategories(e);
+
   // };
 
   handleSelect = (e) => {
@@ -81,7 +104,7 @@ class Dashboard extends React.Component {
             <Select
               name="outletIdentifier"
               value={this.state.data.outletIdentifier}
-              onChange={this.handleSelect}
+              onChange={this.handleOutletChangeFetchCategories}
               options={this.handleOutletIdentifier()}
               default="Select Outlet"
             />
@@ -89,7 +112,7 @@ class Dashboard extends React.Component {
               name="category"
               value={this.state.data.category}
               onChange={this.handleSelect}
-              options={categories}
+              options={this.state.data.options}
               default="Select category"
             />
             <div class="input-group my-3">
