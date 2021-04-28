@@ -22,15 +22,31 @@ def get_chart():
       ['Week 8', 8, 43, 77,'']
     ]}
 
-@app.route('/getOutletNumberBasedOnTier',methods=['POST'])
-def get_outlet_data():
+@app.route('/getcategoryBasedOnOutletIdentifier',methods=['POST'])
+def get_Outlet_Identifier():
     f = open('data/train.json',encoding='utf-8-sig')
     data = json.load(f)
     a = []
     for i in data:
-        if i['Outlet_Location_Type'] == request.json['tier']:
-            a.append(i)
-        
+        if i['Outlet_Identifier'] == request.json['outlet']:
+            a.append(i['Item_Type'])        
+    a = list(set(a)) 
+    a.sort()    
+    f.close()
+    return {
+        "data" : a
+    }
+
+@app.route('/getitemnoBasedOnCategory',methods=['POST'])
+def get_Item_Type():
+    f = open('data/train.json',encoding='utf-8-sig')
+    data = json.load(f)
+    a = []
+    for i in data:
+        if i['Item_Type'] == request.json['category']:
+            a.append(i['Item_Identifier'])
+    a = list(set(a)) 
+    a.sort()    
     f.close()
     return {
         "data" : a
