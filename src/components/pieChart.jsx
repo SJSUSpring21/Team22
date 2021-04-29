@@ -166,8 +166,8 @@ class PieChart extends React.Component {
     return (
       <ReactFusioncharts
         type="multilevelpie"
-        width="100%"
-        height="100%"
+        width="600"
+        height="600"
         dataFormat="JSON"
         dataSource={dataSource}
       />

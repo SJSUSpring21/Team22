@@ -8,7 +8,7 @@ const Select = (props) => {
         id={props.name}
         onChange={props.onChange}
         value={props.value}
-        placeholder={"Select tier"}
+        isSearchable
       >
         <option>{props.default}</option>
         {props.options.map((option) => (
