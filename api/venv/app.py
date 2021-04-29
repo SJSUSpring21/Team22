@@ -31,7 +31,7 @@ def get_Outlet_Identifier():
         if i['Outlet_Identifier'] == request.json['outlet']:
             a.append(i['Item_Type'])        
     a = list(set(a)) 
-    a.sort()    
+    a.sort()
     f.close()
     return {
         "data" : a
@@ -46,8 +46,39 @@ def get_Item_Type():
         if i['Item_Type'] == request.json['category']:
             a.append(i['Item_Identifier'])
     a = list(set(a)) 
-    a.sort()    
+    a.sort()
     f.close()
     return {
         "data" : a
     }
+@app.route('/getOutletOverview',methods=['POST'])
+def get_Categories():
+    categories = {
+    'Snack Foods':0,
+    'Fruits and Vegetables':0,
+    'Household':0,
+    'Frozen Foods':0,
+    'Dairy':0,
+    'Baking Goods':0,
+    'Canned':0,
+    'Meat':0,
+    'Health and Hygiene':0,
+    'Soft Drinks':0,
+    'Others':0,
+    'Breads':0,
+    'Breakfast':0,
+    'Hard Drinks':0,
+    'Seafood':0,
+    'Starchy Foods':0,
+    }
+    f = open('data/train.json',encoding='utf-8-sig')
+    data = json.load(f)
+    a = []
+    for i in data:
+        if i['Outlet_Identifier'] == request.json['outlet']:
+            Item_Type=i['Item_Type']
+            categories[Item_Type] = categories[Item_Type]+float(i['Item_Outlet_Sales'])
+    print (categories)
+    return json.dumps(categories)     
+
+

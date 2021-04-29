@@ -1,9 +1,8 @@
+import React from "react";
 import Select from "./common/Select";
 import PieChart from "./pieChart";
-import { DateRangePicker } from "react-date-range";
-import React, { useState, useEffect } from "react";
-import { addDays } from "date-fns";
 import { isEmpty } from "lodash";
+import OutletOverview from "../components/outletOverview";
 
 var tier1_outlets = ["OUT049", "OUT046", "OUT019"];
 var tier2_outlets = ["OUT045", "OUT035", "OUT017"];
@@ -30,24 +29,16 @@ var categories = [
 class Dashboard extends React.Component {
   state = {
     data: {
-      outletLocation: "",
-      outletIdentifier: "",
-      category: "",
+      selectedoutletLocation: "",
+      selectedoutletIdentifier: "",
+      selectedCategory: "",
       itemNumber: "",
-      options: [],
-    },
-    time: {
-      startDate: new Date(),
-      endDate: addDays(new Date(), 4),
-      // key: "selection",
+      overallSalesOfSelectedOutlet: [],
+      itemsInCategory: [],
     },
   };
+  baseState = { ...this.state };
 
-  // var selectionRange = {
-  //   startDate: new Date(),
-  //   endDate: new Date(),
-  //   key: "selection",
-  // };
   handleOutletChangeFetchCategories = async (e) => {
     const data = { ...this.state.data };
     data[e.currentTarget.name] = e.currentTarget.value;
@@ -56,20 +47,25 @@ class Dashboard extends React.Component {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ outlet: e.currentTarget.value }),
     };
-    let response = await fetch(
-      "/getcategoryBasedOnOutletIdentifier",
-      requestOptions
-    );
+    let response = await fetch("/getOutletOverview", requestOptions);
     response = await response.json();
-    console.log(response.data);
-    data.options = response.data;
+    data.overallSalesOfSelectedOutlet = response;
     this.setState({ data });
   };
 
-  // handleOutletChange = async (e) => {
-  //   await this.getCategories(e);
-
-  // };
+  handleItemsForSelectedCategory = async (e) => {
+    const data = { ...this.state.data };
+    data[e.currentTarget.name] = e.currentTarget.value;
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ category: e.currentTarget.value }),
+    };
+    let response = await fetch("/getitemnoBasedOnCategory", requestOptions);
+    response = await response.json();
+    data.itemsInCategory = response.data;
+    this.setState({ data });
+  };
 
   handleSelect = (e) => {
     const data = { ...this.state.data };
@@ -78,11 +74,11 @@ class Dashboard extends React.Component {
   };
   handleOutletIdentifier = () => {
     const data = { ...this.state.data };
-    if (data.outletLocation === "Tier 1") {
+    if (data.selectedoutletLocation === "Tier 1") {
       return tier1_outlets;
-    } else if (data.outletLocation === "Tier 2") {
+    } else if (data.selectedoutletLocation === "Tier 2") {
       return tier2_outlets;
-    } else if (data.outletLocation === "Tier 3") {
+    } else if (data.selectedoutletLocation === "Tier 3") {
       return tier3_outlets;
     } else {
       return [...tier1_outlets, ...tier2_outlets, ...tier3_outlets];
@@ -92,27 +88,32 @@ class Dashboard extends React.Component {
     const outletTypes = ["Tier 1", "Tier 2", "Tier 3"];
     return (
       <div>
-        <div className=" row container-fluid col-12">
-          <div className="col-4">
+        <div className="row container-fluid col-12">
+          <div className="col">
             <Select
-              name="outletLocation"
-              value={this.state.data.outletLocation}
+              name="selectedoutletLocation"
+              value={this.state.data.selectedoutletLocation}
               onChange={this.handleSelect}
               options={outletTypes}
               default="Select Tier"
             />
             <Select
-              name="outletIdentifier"
-              value={this.state.data.outletIdentifier}
+              name="selectedoutletIdentifier"
+              value={this.state.data.selectedoutletIdentifier}
               onChange={this.handleOutletChangeFetchCategories}
               options={this.handleOutletIdentifier()}
               default="Select Outlet"
             />
+            <button class="btn btn-block btn-success"> Search </button>
+          </div>
+          <div className="col">
             <Select
-              name="category"
-              value={this.state.data.category}
-              onChange={this.handleSelect}
-              options={this.state.data.options}
+              name="selectedCategory"
+              value={this.state.data.selectedCategory}
+              onChange={this.handleItemsForSelectedCategory}
+              options={Object.keys(
+                this.state.data.overallSalesOfSelectedOutlet
+              )}
               default="Select category"
             />
             <div class="input-group my-3">
@@ -128,12 +129,19 @@ class Dashboard extends React.Component {
                 aria-describedby="inputGroup-sizing-default"
               />
             </div>
-            <button class="btn btn-block btn-success"> Search </button>
+            <button class="btn btn-block btn-success"> Predict </button>
           </div>
-          {/* <div class="col-8"></div> */}
         </div>
 
-        {isEmpty(this.state.data.outletLocation) && <PieChart />}
+        {isEmpty(this.state.data.selectedoutletLocation) &&
+          isEmpty(this.state.data.selectedoutletIdentifier) && (
+            <div className="mt-5">
+              <PieChart />
+            </div>
+          )}
+        {!isEmpty(this.state.data.selectedoutletIdentifier) && (
+          <OutletOverview data={this.state.data.overallSalesOfSelectedOutlet} />
+        )}
       </div>
     );
   }
