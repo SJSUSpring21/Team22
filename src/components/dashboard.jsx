@@ -1,31 +1,13 @@
 import React from "react";
+import { isEmpty } from "lodash";
 import Select from "./common/Select";
 import PieChart from "./pieChart";
-import { isEmpty } from "lodash";
 import OutletOverview from "../components/outletOverview";
+import TierOverview from "../components/tierOverview";
 
 var tier1_outlets = ["OUT049", "OUT046", "OUT019"];
 var tier2_outlets = ["OUT045", "OUT035", "OUT017"];
 var tier3_outlets = ["OUT027", "OUT013", "OUT018", "OUT010"];
-var categories = [
-  "Snack Foods",
-  "Fruits and Vegetables",
-  ,
-  "Household",
-  "Frozen Foods",
-  "Dairy",
-  "Baking Goods",
-  "Canned",
-  "Meat",
-  "Health and Hygiene",
-  "Soft Drinks",
-  "Others",
-  "Breads",
-  "Breakfast",
-  "Hard Drinks",
-  "Seafood",
-  "Starchy Foods",
-];
 class Dashboard extends React.Component {
   state = {
     data: {
@@ -34,6 +16,7 @@ class Dashboard extends React.Component {
       selectedCategory: "",
       itemNumber: "",
       overallSalesOfSelectedOutlet: [],
+      overallSalesOfSelectedTier: {},
       itemsInCategory: [],
     },
   };
@@ -67,9 +50,17 @@ class Dashboard extends React.Component {
     this.setState({ data });
   };
 
-  handleSelect = (e) => {
+  handleTierlevelData = async (e) => {
     const data = { ...this.state.data };
     data[e.currentTarget.name] = e.currentTarget.value;
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tier: e.currentTarget.value }),
+    };
+    let response = await fetch("/getTierLevelOverview", requestOptions);
+    response = await response.json();
+    data.overallSalesOfSelectedTier = response;
     this.setState({ data });
   };
   handleOutletIdentifier = () => {
@@ -93,7 +84,7 @@ class Dashboard extends React.Component {
             <Select
               name="selectedoutletLocation"
               value={this.state.data.selectedoutletLocation}
-              onChange={this.handleSelect}
+              onChange={this.handleTierlevelData}
               options={outletTypes}
               default="Select Tier"
             />
@@ -139,9 +130,20 @@ class Dashboard extends React.Component {
               <PieChart />
             </div>
           )}
-        {!isEmpty(this.state.data.selectedoutletIdentifier) && (
-          <OutletOverview data={this.state.data.overallSalesOfSelectedOutlet} />
-        )}
+        {!isEmpty(this.state.data.selectedoutletIdentifier) &&
+          isEmpty(this.state.data.selectedCategory) && (
+            <OutletOverview
+              data={this.state.data.overallSalesOfSelectedOutlet}
+            />
+          )}
+        {!isEmpty(this.state.data.selectedoutletLocation) &&
+          isEmpty(this.state.data.selectedoutletIdentifier) &&
+          isEmpty(this.state.data.selectedCategory) && (
+            <TierOverview
+              tierLtevelData={this.state.data.overallSalesOfSelectedTier}
+              tier={this.state.data.selectedoutletLocation}
+            />
+          )}
       </div>
     );
   }

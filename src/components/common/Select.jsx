@@ -10,7 +10,7 @@ const Select = (props) => {
         value={props.value}
         isSearchable
       >
-        <option>{props.default}</option>
+        <option value="">{props.default}</option>
         {props.options.map((option) => (
           <option key={option} value={option}>
             {option}
