@@ -52,7 +52,13 @@ def get_Item_Type():
         "data" : a
     }
 @app.route('/getOutletOverview',methods=['POST'])
-def get_Categories():
+def get_outletOverview():
+    f = open('data/train.json',encoding='utf-8-sig')
+    data = json.load(f)
+    categories = get_Categories(data, request.json['outlet'])
+    return categories
+
+def get_Categories(data, outlet):
     categories = {
     'Snack Foods':0,
     'Fruits and Vegetables':0,
@@ -71,14 +77,31 @@ def get_Categories():
     'Seafood':0,
     'Starchy Foods':0,
     }
-    f = open('data/train.json',encoding='utf-8-sig')
-    data = json.load(f)
-    a = []
     for i in data:
-        if i['Outlet_Identifier'] == request.json['outlet']:
+        if i['Outlet_Identifier'] == outlet:
             Item_Type=i['Item_Type']
             categories[Item_Type] = categories[Item_Type]+float(i['Item_Outlet_Sales'])
-    print (categories)
-    return json.dumps(categories)     
+    return json.dumps(categories)    
+
+@app.route('/getTierLevelOverview',methods=['POST'])
+def getTierLevelData():
+    dict={}
+    outlets =[]
+    tierLevelData=[]
+    f = open('data/train.json',encoding='utf-8-sig')
+    data = json.load(f)
+    for i in data:
+        if i['Outlet_Location_Type'] == request.json['tier']:
+            outlets.append(i['Outlet_Identifier'])
+            tierLevelData.append(i)
+    outlets = set(outlets)
+    for outlet in outlets:
+        dict[outlet]={}
+        dict[outlet]=get_Categories(tierLevelData, outlet)
+    print(dict)
+    return json.dumps(dict)
+
+
+
 
 
