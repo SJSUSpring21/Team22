@@ -98,8 +98,26 @@ def getTierLevelData():
     for outlet in outlets:
         dict[outlet]={}
         dict[outlet]=get_Categories(tierLevelData, outlet)
-    print(dict)
     return json.dumps(dict)
+    
+@app.route('/getItemFatContent',methods=['POST'])
+def getCategoryRelatedInfo():
+    categories = {
+    'Low Fat':0,
+    'Regular':0
+    }
+    f = open('data/train.json',encoding='utf-8-sig')
+    data = json.load(f)
+    for i in data:
+        if i['Outlet_Identifier'] == request.json['outlet']:
+            if i['Item_Type'] == request.json['category']:
+                Item_Fat_Content=i['Item_Fat_Content']
+                if (Item_Fat_Content == "Low Fat") or (Item_Fat_Content == "LF"):
+                    categories['Low Fat'] = categories['Low Fat']+float(i['Item_Outlet_Sales'])
+                else:
+                    categories['Regular'] = categories['Regular']+float(i['Item_Outlet_Sales'])
+    return json.dumps(categories) 
+
 
 
 
