@@ -4,6 +4,7 @@ import Select from "./common/Select";
 import PieChart from "./pieChart";
 import OutletOverview from "../components/outletOverview";
 import TierOverview from "../components/tierOverview";
+import CategoryView from "../components/CategoryView";
 
 var tier1_outlets = ["OUT049", "OUT046", "OUT019"];
 var tier2_outlets = ["OUT045", "OUT035", "OUT017"];
@@ -17,6 +18,7 @@ class Dashboard extends React.Component {
       itemNumber: "",
       overallSalesOfSelectedOutlet: [],
       overallSalesOfSelectedTier: {},
+      overallSalesOfSelectedCategory: {},
       itemsInCategory: [],
     },
   };
@@ -33,20 +35,6 @@ class Dashboard extends React.Component {
     let response = await fetch("/getOutletOverview", requestOptions);
     response = await response.json();
     data.overallSalesOfSelectedOutlet = response;
-    this.setState({ data });
-  };
-
-  handleItemsForSelectedCategory = async (e) => {
-    const data = { ...this.state.data };
-    data[e.currentTarget.name] = e.currentTarget.value;
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ category: e.currentTarget.value }),
-    };
-    let response = await fetch("/getitemnoBasedOnCategory", requestOptions);
-    response = await response.json();
-    data.itemsInCategory = response.data;
     this.setState({ data });
   };
 
@@ -75,6 +63,25 @@ class Dashboard extends React.Component {
       return [...tier1_outlets, ...tier2_outlets, ...tier3_outlets];
     }
   };
+
+  handleCategoryLevelData = async (e) => {
+    const data = { ...this.state.data };
+    data[e.currentTarget.name] = e.currentTarget.value;
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        outlet: this.state.data.selectedoutletIdentifier,
+        category: e.currentTarget.value,
+      }),
+    };
+    let response = await fetch("/getItemFatContent", requestOptions);
+    response = await response.json();
+    console.log(response);
+    data.overallSalesOfSelectedCategory = response;
+    this.setState({ data });
+  };
+
   render() {
     const outletTypes = ["Tier 1", "Tier 2", "Tier 3"];
     return (
@@ -101,7 +108,7 @@ class Dashboard extends React.Component {
             <Select
               name="selectedCategory"
               value={this.state.data.selectedCategory}
-              onChange={this.handleItemsForSelectedCategory}
+              onChange={this.handleCategoryLevelData}
               options={Object.keys(
                 this.state.data.overallSalesOfSelectedOutlet
               )}
@@ -142,6 +149,13 @@ class Dashboard extends React.Component {
             <TierOverview
               tierLtevelData={this.state.data.overallSalesOfSelectedTier}
               tier={this.state.data.selectedoutletLocation}
+            />
+          )}
+        {!isEmpty(this.state.data.selectedoutletLocation) &&
+          !isEmpty(this.state.data.selectedoutletIdentifier) &&
+          !isEmpty(this.state.data.selectedCategory) && (
+            <CategoryView
+              data={this.state.data.overallSalesOfSelectedCategory}
             />
           )}
       </div>
