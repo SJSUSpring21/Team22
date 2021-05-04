@@ -1,11 +1,13 @@
 import React from "react";
+import { isEmpty } from "lodash";
 import Select from "./common/Select";
 import PieChart from "./pieChart";
-import { isEmpty } from "lodash";
 import OutletOverview from "../components/outletOverview";
 import Autocomplete from 'react-autocomplete'
 import Table from 'react-bootstrap/Table'
 import Itemsales from "../components/itemsales";
+import TierOverview from "../components/tierOverview";
+import CategoryView from "../components/CategoryView";
 
 var tier1_outlets = ["OUT049", "OUT046", "OUT019"];
 var tier2_outlets = ["OUT045", "OUT035", "OUT017"];
@@ -55,6 +57,8 @@ class Dashboard extends React.Component {
       selectedCategory: "",
       itemNumber: "",
       overallSalesOfSelectedOutlet: [],
+      overallSalesOfSelectedTier: {},
+      overallSalesOfSelectedCategory: {},
       itemsInCategory: [],
     },
     value: '',
@@ -116,15 +120,15 @@ class Dashboard extends React.Component {
     this.setState({itemsalesData})
   }
  
-  handleItemsForSelectedCategory = async (e) => {
+  handleTierlevelData = async (e) => {
     const data = { ...this.state.data };
     data[e.currentTarget.name] = e.currentTarget.value;
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ category: e.currentTarget.value }),
+      body: JSON.stringify({ tier: e.currentTarget.value }),
     };
-    let response = await fetch("/getitemnoBasedOnCategory", requestOptions);
+    let response = await fetch("/getTierLevelOverview", requestOptions);
     response = await response.json();
     let arr = [];
     for(let i=0;i<response.data.length;i++){
@@ -140,6 +144,7 @@ class Dashboard extends React.Component {
   handleSelect = (e) => {
     const data = { ...this.state.data };
     data[e.currentTarget.name] = e.currentTarget.value;
+    data.overallSalesOfSelectedTier = response;
     this.setState({ data });
   };
   handleOutletIdentifier = () => {
@@ -154,6 +159,25 @@ class Dashboard extends React.Component {
       return [...tier1_outlets, ...tier2_outlets, ...tier3_outlets];
     }
   };
+
+  handleCategoryLevelData = async (e) => {
+    const data = { ...this.state.data };
+    data[e.currentTarget.name] = e.currentTarget.value;
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        outlet: this.state.data.selectedoutletIdentifier,
+        category: e.currentTarget.value,
+      }),
+    };
+    let response = await fetch("/getItemFatContent", requestOptions);
+    response = await response.json();
+    console.log(response);
+    data.overallSalesOfSelectedCategory = response;
+    this.setState({ data });
+  };
+
   render() {
     const outletTypes = ["Tier 1", "Tier 2", "Tier 3"];
     return (
@@ -163,7 +187,7 @@ class Dashboard extends React.Component {
             <Select
               name="selectedoutletLocation"
               value={this.state.data.selectedoutletLocation}
-              onChange={this.handleSelect}
+              onChange={this.handleTierlevelData}
               options={outletTypes}
               default="Select Tier"
             />
@@ -181,7 +205,7 @@ class Dashboard extends React.Component {
             <Select
               name="selectedCategory"
               value={this.state.data.selectedCategory}
-              onChange={this.handleItemsForSelectedCategory}
+              onChange={this.handleCategoryLevelData}
               options={Object.keys(
                 this.state.data.overallSalesOfSelectedOutlet
               )}
@@ -214,7 +238,14 @@ class Dashboard extends React.Component {
         {!isEmpty(this.state.data.selectedoutletIdentifier) && isEmpty(this.state.tableData) && (
           <OutletOverview data={this.state.data.overallSalesOfSelectedOutlet} />
         )}
-       
+       {!isEmpty(this.state.data.selectedoutletLocation) &&
+          isEmpty(this.state.data.selectedoutletIdentifier) &&
+          isEmpty(this.state.data.selectedCategory) && (
+            <TierOverview
+              tierLtevelData={this.state.data.overallSalesOfSelectedTier}
+              tier={this.state.data.selectedoutletLocation}
+            />
+          )}
 
         {!isEmpty(this.state.tableData) && (
           <div className="row mt-5 container-fluid">
@@ -267,9 +298,11 @@ class Dashboard extends React.Component {
         )}
       </div>     
   
-  );
+
    
   
-  }
-}
+          )};
+       
+        }
+      
 export default Dashboard;
