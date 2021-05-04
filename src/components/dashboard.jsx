@@ -92,7 +92,7 @@ class Dashboard extends React.Component {
     response = await response.json();
     console.log(response)
     let tableData = response.data
-    this.setState({tableData})
+    this.setState({tableData}) 
   }
   searchsData = async(e) =>{
     const requestOptions = {
