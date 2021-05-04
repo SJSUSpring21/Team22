@@ -122,4 +122,32 @@ def getCategoryRelatedInfo():
 
 
 
+@app.route('/getitemdetailbasedOnitem',methods=['POST'])
+def get_Item_Identifier():
+    f = open('data/train.json',encoding='utf-8-sig')
+    data = json.load(f)
+    a = []
+    for i in data:
+        if i['Item_Identifier'] == request.json['Item_no'] and i['Item_Type'] == request.json['category'] and i['Outlet_Identifier'] == request.json['outlet']:
+            a.append(i)
+    f.close()
+    return {
+        "data" : a
+    }
 
+@app.route('/compareitemsalesacrossoutlets',methods=['POST'])
+def get_Item():
+    f = open('data/train.json',encoding='utf-8-sig')
+    data = json.load(f)
+    a = []
+  
+    for i in data:
+        obj = {}
+        if i['Item_Identifier'] == request.json['Item_no'] :
+            obj['Outlet'] = i['Outlet_Identifier']
+            obj['Sales']= i['Item_Outlet_Sales']
+            a.append(obj)      
+    f.close()
+    return {
+        "data" : a
+    }
