@@ -19,7 +19,8 @@ class OutletOverview extends React.Component {
           loader={<div>Loading Chart</div>}
           data={this.getBarChartData(this.props.data)}
           options={{
-            title: "Sales in each category",
+            colors: ['#ffab91'],
+            /* title: "Sales in each category", */
             hAxis: {
               title: "Total Population",
               minValue: 0,
