@@ -3,6 +3,7 @@ import { addDays } from "date-fns";
 import { GoogleCharts } from "google-charts";
 import NavBar from "./components/navBar";
 import Dashboard from "./components/dashboard";
+import Login from "./components/login"
 import "./App.css";
 
 function App() {
@@ -21,10 +22,66 @@ function App() {
       key: "selection",
     },
   ]);
+
+  const [passwords] = useState( [{
+    "email":"admin@gmail.com",
+    "password": "admin"
+  },{
+    "email":"vaibhav@gmail.com",
+    "password": "Vaibhav135"
+  },
+  {
+    "email":"kesiya@gmail.com",
+    "password": "kesiya"
+  },
+  {
+    "email":"sayali@gmail.com",
+    "password": "sayali"
+  },
+  {
+    "email":"lekha@gmail.com",
+    "password": "lekha"
+  }])
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoggedIn, setLoggedIn] = useState(false);
+
+  const onChange =(e) => {
+    if(e.target.name === "email"){
+      setEmail(e.target.value);
+    }else{
+      setPassword(e.target.value)
+    }
+  }
+
+  const onSubmit =(e) => {
+    e.preventDefault();
+
+    const userData = {
+      email,
+      password,
+    };
+    for (var i=0; i<passwords.length; i++) { 
+        if (JSON.stringify(passwords[i]) === JSON.stringify(userData) ) {
+                setLoggedIn(true);
+         }
+   }
+}
   return (
     <div className="App">
-      <NavBar />
-      <Dashboard />
+       
+      {isLoggedIn
+       ? 
+      <React.Fragment>
+        <NavBar email={email} isLoggedIn = {isLoggedIn}  setLoggedIn = {setLoggedIn}/> 
+      <Dashboard /></React.Fragment>
+      :
+      <React.Fragment>
+        <NavBar email={email} isLoggedIn = {isLoggedIn} />
+        <Login email={email} password={password} onChange={onChange} onSubmit={onSubmit}/>
+      </React.Fragment> 
+     }
     </div>
   );
   function toggleButtonState() {

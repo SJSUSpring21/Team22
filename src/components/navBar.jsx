@@ -1,7 +1,43 @@
 import React from "react";
 
-class NavBar extends React.Component {
-  render() {
+
+
+const emailAndNames = [{
+  "name": "Vaibhav",
+  "email": "vaibhav@gmail.com",
+  
+},
+{
+  "name": "Kesiya",
+  "email": "kesiya@gmail.com",
+  
+},{
+  "name": "Lekha",
+  "email": "lekha@gmail.com",
+  
+},{
+  "name": "Sayali",
+  "email": "sayali@gmail.com",
+  
+},
+{
+  "name": "Administrator",
+  "email": "admin@gmail.com",
+  
+}
+]
+
+
+
+
+export const NavBar = (props) => {
+
+  const { isLoggedIn, email, setLoggedIn} = props;
+
+  const logout = (e) =>{
+    setLoggedIn(false);
+  }
+
     return (
       <div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -40,12 +76,17 @@ class NavBar extends React.Component {
             <ul class="nav navbar-nav navbar-right ml-auto">
               <li class="nav-item">
                 <a class="nav-link" href="#">
-                  Kesiya Raj
+                  {isLoggedIn ? emailAndNames.filter(item => item.email === email)[0].name : ""}
                 </a>
               </li>
               <li class="nav-item">
                 <a class="navbar-brand" href="#">
-                  <img src="/download.png" alt="" width="30" height="24" />
+                  {isLoggedIn ? <img src="/download.png" alt="" width="30" height="24" /> : ""}
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="navbar-brand" onClick= {logout}>
+                  {isLoggedIn ? "Logout" : ""}
                 </a>
               </li>
             </ul>
@@ -54,6 +95,6 @@ class NavBar extends React.Component {
       </div>
     );
   }
-}
+
 
 export default NavBar;
