@@ -15,13 +15,12 @@ class CategoryView extends React.Component {
     return (
       <div>
         <Chart
-          width={"500px"}
           height={"300px"}
           chartType="BarChart"
           loader={<div>Loading Chart</div>}
           data={this.getBarChartData(this.props.data)}
           options={{
-            title: "Sales of a category based on Fat Content",
+            /* title: "Sales of a category based on Fat Content", */
             width: 600,
             height: 400,
             bar: { groupWidth: "95%" },

@@ -59,17 +59,17 @@ export const NavBar = (props) => {
             <ul class="navbar-nav">
               <li class="nav-item active">
                 <a class="nav-link" href="#">
-                  Home <span class="sr-only">(current)</span>
+                  Sales <span class="sr-only">(current)</span>
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">
-                  Features
+                  Predict
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">
-                  Pricing
+                  
                 </a>
               </li>
             </ul>

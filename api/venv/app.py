@@ -36,20 +36,29 @@ def get_Outlet_Identifier():
     return {
         "data" : a
     }
-
+def sortFunction(value):
+	return value["sales"]
 @app.route('/getitemnoBasedOnCategory',methods=['POST'])
 def get_Item_Type():
     f = open('data/train.json',encoding='utf-8-sig')
     data = json.load(f)
     a = []
+    
+    b = []
+    c = []
     for i in data:
-        if i['Item_Type'] == request.json['category']:
-            a.append(i['Item_Identifier'])
-    a = list(set(a)) 
+        salesArray = {}
+        if i['Item_Type'] == request.json['category'] and i['Outlet_Identifier'] == request.json['outlet']:
+                a.append(i['Item_Identifier'])
+                salesArray['sales'] = float(i['Item_Outlet_Sales'])
+                salesArray['itemno'] = i['Item_Identifier']
+                b.append(salesArray)          
     a.sort()
+    c = sorted(b, key=sortFunction,reverse=True)
     f.close()
     return {
-        "data" : a
+        "data" : a,
+        "outletSales": c
     }
 @app.route('/getOutletOverview',methods=['POST'])
 def get_outletOverview():

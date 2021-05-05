@@ -37,13 +37,12 @@ class TierOverview extends React.Component {
     return (
       <div>
         <Chart
-          width="100%"
           height={"500px"}
           chartType="BarChart"
           loader={<div>Loading Chart</div>}
           data={this.getBarChartData(this.props.tierLtevelData)}
           options={{
-            title: `Sales of outlets in ${this.props.tier}`,
+            /* title: `Sales of outlets in ${this.props.tier}`, */
             chartArea: { width: "50%" },
             isStacked: true,
             hAxis: {

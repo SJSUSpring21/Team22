@@ -11,7 +11,7 @@ ReactFusioncharts.fcRoot(FusionCharts, PowerCharts, FusionTheme);
 
 const dataSource = {
   chart: {
-    caption: "Stores by location",
+   /*  caption: "Stores by location", */
     showplotborder: "1",
     plotfillalpha: "60",
     hoverfillcolor: "#CCCCCC",
