@@ -60,6 +60,8 @@ def get_Item_Type():
         "data" : a,
         "outletSales": c
     }
+
+
 @app.route('/getOutletOverview',methods=['POST'])
 def get_outletOverview():
     f = open('data/train.json',encoding='utf-8-sig')
@@ -160,3 +162,101 @@ def get_Item():
     return {
         "data" : a
     }
+
+@app.route('/getitemsBasedOnCategory',methods=['POST'])
+def getItemType():
+    f = open('data/train.json',encoding='utf-8-sig')
+    data = json.load(f)
+    a = []
+    for i in data:
+        if i['Item_Type'] == request.json['category']:
+            a.append(i['Item_Identifier'])
+    a = list(set(a)) 
+    a.sort()    
+    f.close()
+    return {
+        "data" : a
+    }
+
+@app.route('/getItemDetails', methods=['POST'])
+def getItemInfo():
+    f = open('data/train.json',encoding='utf-8-sig')
+    data = json.load(f)
+    a = {}
+    # print(request.json['itemNumber'])
+    for i in data:
+        if i['Item_Identifier'] == request.json['itemNumber']:
+            a = i
+    f.close()
+    # print(a)
+    return{
+        "data" : a
+    }
+
+
+
+# prediction function
+def PredictSales(input):
+    
+    loaded_model = pickle.load(open("finalized_model.pkl", "rb"))
+    result = loaded_model.predict(input)
+    print(result)
+    return result[0]
+  
+@app.route('/getPrediction', methods = ['POST'])
+def getprediction():
+    f = open('data/cleaneddata.json',encoding='utf-8-sig')
+    data = json.load(f)
+    a = {}
+    print(request.json)
+    for i in data:
+        if i['Item_Identifier'] == request.json['itemNumber']:
+            a = i
+    f.close()
+    print(a['Item_Type'])
+    # itemType = itemTypeMapping[a['Item_Type']]
+    outletYears = 2013 - int(a['Outlet_Establishment_Year'])
+    # outlet = outletMapping[a['Outlet_Identifier']]
+    # Item_Fat_Content_0 = 
+    # Item_Fat_Content_1 = 
+    # Item_Fat_Content_2 = 
+    # Outlet_Size_0 = 
+    # Outlet_Size_1 = 
+    # Outlet_Size_2 = 
+    # Outlet_Location_Type_0 = 
+    # Outlet_Location_Type_1 = 
+    # Outlet_Location_Type_2 = 
+    # Outlet_Type_0 = 
+    # Outlet_Type_1 = 
+    # Outlet_Type_2 = 
+    # Outlet_Type_3 = 
+    # New_Item_Type_0 = 
+    # New_Item_Type_1 = 
+    # New_Item_Type_2 =
+
+    # Index(['Item_Weight', 'Item_Visibility', 'Item_Type', 'Item_MRP',
+    #    'Outlet_Years', 'Outlet', 'Item_Fat_Content_0', 'Item_Fat_Content_1',
+    #    'Item_Fat_Content_2', 'Outlet_Size_0', 'Outlet_Size_1', 'Outlet_Size_2',
+    #    'Outlet_Location_Type_0', 'Outlet_Location_Type_1',
+    #    'Outlet_Location_Type_2', 'Outlet_Type_0', 'Outlet_Type_1',
+    #    'Outlet_Type_2', 'Outlet_Type_3', 'New_Item_Type_0', 'New_Item_Type_1',
+    #    'New_Item_Type_2'],
+    input = [[ request.json['itemWeight'],
+     request.json['itemVisibility'],
+      a['Item_Type'], request.json['itemPrice'],
+      outletYears , a['Outlet'], a['Item_Fat_Content_0'], 
+      a['Item_Fat_Content_1'],a['Item_Fat_Content_2'], 
+      a['Outlet_Size_0'],a['Outlet_Size_1'], a['Outlet_Size_2'], 
+      a['Outlet_Location_Type_0'], a['Outlet_Location_Type_1'],
+      a['Outlet_Location_Type_2'], a['Outlet_Type_0'],
+      a['Outlet_Type_1'], a['Outlet_Type_2'], a['Outlet_Type_3'], 
+      a['New_Item_Type_0'], a['New_Item_Type_1'], a['New_Item_Type_2'] ]]
+    print(input)
+    
+    value = PredictSales(input)
+    
+    print(value)
+    return{
+        "data" : value
+    }
+
