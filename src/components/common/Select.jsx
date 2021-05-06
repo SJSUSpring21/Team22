@@ -9,6 +9,7 @@ const Select = (props) => {
         onChange={props.onChange}
         value={props.value}
         isSearchable
+        disabled={props.disabled}
       >
         <option value="">{props.default}</option>
         {props.options.map((option) => (

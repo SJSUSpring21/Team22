@@ -11,7 +11,7 @@ ReactFusioncharts.fcRoot(FusionCharts, PowerCharts, FusionTheme);
 
 const dataSource = {
   chart: {
-   /*  caption: "Stores by location", */
+    /*  caption: "Stores by location", */
     showplotborder: "1",
     plotfillalpha: "60",
     hoverfillcolor: "#CCCCCC",
@@ -23,12 +23,13 @@ const dataSource = {
     {
       label: "Tier 1",
       color: "#f8bd19",
+      value: 3,
+      tooltext:
+        "Number of stores in  <b>$label</b> are <b>$value</b>, which was $percentValue of parent category",
       category: [
         {
           label: "OUTO49",
           color: "#f8bd19",
-          tooltext:
-            "Number of stores in  <b>$label</b> are <b>$value</b>, which was $percentValue of parent category",
           category: [
             {
               label: "Supermarket Type1",
@@ -39,8 +40,6 @@ const dataSource = {
         {
           label: "OUTO46",
           color: "#f8bd19",
-          tooltext:
-            "Number of stores in  <b>$label</b> are <b>$value</b>, which was $percentValue of parent category",
           category: [
             {
               label: "Supermarket Type1",
@@ -51,8 +50,6 @@ const dataSource = {
         {
           label: "OUTO19",
           color: "#f8bd19",
-          tooltext:
-            "Number of stores in  <b>$label</b> are <b>$value</b>, which was $percentValue of parent category",
           category: [
             {
               label: "Grocery Store",
@@ -65,12 +62,13 @@ const dataSource = {
     {
       label: "Tier 2",
       color: "#33ccff",
+      value: 3,
+      tooltext:
+        "Number of stores in  <b>$label</b> are <b>$value</b>, which was $percentValue of parent category",
       category: [
         {
           label: "OUTO17",
           color: "#33ccff",
-          tooltext:
-            "Number of stores in  <b>$label</b> are <b>$value</b>, which was $percentValue of parent category",
           category: [
             {
               label: "Supermarket Type1",
@@ -81,8 +79,6 @@ const dataSource = {
         {
           label: "OUTO45",
           color: "#33ccff",
-          tooltext:
-            "Number of stores in  <b>$label</b> are <b>$value</b>, which was $percentValue of parent category",
           category: [
             {
               label: "Supermarket Type1",
@@ -93,8 +89,6 @@ const dataSource = {
         {
           label: "OUTO35",
           color: "#33ccff",
-          tooltext:
-            "Number of stores in  <b>$label</b> are <b>$value</b>, which was $percentValue of parent category",
           category: [
             {
               label: "Supermarket Type1",
@@ -107,12 +101,13 @@ const dataSource = {
     {
       label: "Tier 3",
       color: "#ffcccc",
+      value: 4,
+      tooltext:
+        "Number of stores in  <b>$label</b> are <b>$value</b>, which was $percentValue of parent category",
       category: [
         {
           label: "OUTO10",
           color: "#ffcccc",
-          tooltext:
-            "Number of stores in  <b>$label</b> are <b>$value</b>, which was $percentValue of parent category",
           category: [
             {
               label: "Grocery Store",
@@ -123,8 +118,6 @@ const dataSource = {
         {
           label: "OUTO18",
           color: "#ffcccc",
-          tooltext:
-            "Number of stores in  <b>$label</b> are <b>$value</b>, which was $percentValue of parent category",
           category: [
             {
               label: "Supermarket Type2",
@@ -135,8 +128,6 @@ const dataSource = {
         {
           label: "OUTO13",
           color: "#ffcccc",
-          tooltext:
-            "Number of stores in  <b>$label</b> are <b>$value</b>, which was $percentValue of parent category",
           category: [
             {
               label: "Supermarket Type1",
@@ -147,8 +138,6 @@ const dataSource = {
         {
           label: "OUTO27",
           color: "#ffcccc",
-          tooltext:
-            "Number of stores in  <b>$label</b> are <b>$value</b>, which was $percentValue of parent category",
           category: [
             {
               label: "Supermarket Type3",

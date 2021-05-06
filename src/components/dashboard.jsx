@@ -81,7 +81,10 @@ class Dashboard extends React.Component {
     let response = await fetch("/getOutletOverview", requestOptions);
     response = await response.json();
     data.overallSalesOfSelectedOutlet = response;
-    this.setState({ data });
+    data.selectedCategory = "";
+    data.overallSalesOfSelectedCategory = "";
+    data.itemsInCategory = [];
+    this.setState({ data, tableData: [], value: "" });
   };
   
   searchData = async (e) => {
@@ -133,7 +136,11 @@ class Dashboard extends React.Component {
     let response = await fetch("/getTierLevelOverview", requestOptions);
     response = await response.json();
     data.overallSalesOfSelectedTier = response;
-    this.setState({ data });
+    data.selectedCategory = "";
+    data.selectedoutletIdentifier = "";
+    data.overallSalesOfSelectedCategory = "";
+    data.overallSalesOfSelectedOutlet = "";
+    this.setState({ data, value: "" });
   };
   handleOutletIdentifier = () => {
     const data = { ...this.state.data };
@@ -198,7 +205,7 @@ class Dashboard extends React.Component {
     console.log(categorysalesDataArray)
     data.categorysalesData = categorysalesDataArray
 
-    this.setState({ data });
+    this.setState({ data, value: "", tableData: [], itemsalesData: [] });
   };
   render() {
     const outletTypes = ["Tier 1", "Tier 2", "Tier 3"];
@@ -220,12 +227,13 @@ class Dashboard extends React.Component {
             
           </div>
           <div className="col-3">
-          <Select
+            <Select
               name="selectedoutletIdentifier"
               value={this.state.data.selectedoutletIdentifier}
               onChange={this.handleOutletChangeFetchCategories}
               options={this.handleOutletIdentifier()}
               default="Select Outlet"
+              disabled={isEmpty(this.state.data.selectedoutletLocation)}
             />
           </div>
           <div className="col-3">
@@ -237,6 +245,10 @@ class Dashboard extends React.Component {
                 this.state.data.overallSalesOfSelectedOutlet
               )}
               default="Select category"
+              disabled={
+                isEmpty(this.state.data.selectedoutletLocation) ||
+                isEmpty(this.state.data.selectedoutletIdentifier)
+              }
             />
             
             
@@ -263,116 +275,142 @@ class Dashboard extends React.Component {
           </div>
         </div>
         <div className="row container-fluid pr-0">
-        {!isEmpty(this.state.data.selectedoutletLocation) &&
-          isEmpty(this.state.data.selectedoutletIdentifier) &&
-          isEmpty(this.state.data.selectedCategory) && (
-            
-            <div className="col mt-5">
-              <h6 className="heading">Total Sales in outlets in {this.state.data.selectedoutletLocation}</h6>
-            <TierOverview
-              tierLtevelData={this.state.data.overallSalesOfSelectedTier}
-              tier={this.state.data.selectedoutletLocation}
-            />
-            </div>
-          )}
-        {!isEmpty(this.state.data.selectedoutletLocation) &&
-          !isEmpty(this.state.data.selectedoutletIdentifier) &&
-          !isEmpty(this.state.data.selectedCategory) && isEmpty(this.state.tableData) &&(
-            <div className="col-6 mt-5">
-              <h6 className="heading">Sales of {this.state.data.selectedCategory} based on fat content</h6>
-            <CategoryView
-              data={this.state.data.overallSalesOfSelectedCategory}
-            />
-            </div>
-          )}
           {!isEmpty(this.state.data.selectedoutletLocation) &&
-          !isEmpty(this.state.data.selectedoutletIdentifier) &&
-          !isEmpty(this.state.data.selectedCategory) && isEmpty(this.state.tableData) &&(
-            <div className="col-6 mt-5">
-            <h6 className="heading">Top 5 Item Sales in {this.state.data.selectedCategory}</h6>
-            <CategorySalesView
-              data={this.state.data.categorysalesData}
-            />
-            </div>
-          )}
-        {isEmpty(this.state.data.selectedoutletLocation) && isEmpty(this.state.data.selectedoutletIdentifier) && isEmpty(
-          this.state.tableData) && (
-            <div className="col-12 mt-5">
-              <h6 className="heading">Stores By Location</h6> 
-              <PieChart />
-            </div>
-        )}
-        {!isEmpty(this.state.data.selectedoutletIdentifier) && isEmpty(this.state.tableData) && isEmpty(this.state.data.selectedCategory)  && (
-           <div className="col-12 mt-5">
-             <h6 className="heading">Total sales based on categories in {this.state.data.selectedoutletIdentifier}</h6>
-            <OutletOverview data={this.state.data.overallSalesOfSelectedOutlet} />
-          </div>
-        )}
-       
+            isEmpty(this.state.data.selectedoutletIdentifier) &&
+            isEmpty(this.state.data.selectedCategory) && (
+              <div className="col mt-5">
+                <h6 className="heading">
+                  Total Sales in outlets in{" "}
+                  {this.state.data.selectedoutletLocation}
+                </h6>
+                <TierOverview
+                  tierLtevelData={this.state.data.overallSalesOfSelectedTier}
+                  tier={this.state.data.selectedoutletLocation}
+                />
+              </div>
+            )}
+          {!isEmpty(this.state.data.selectedoutletLocation) &&
+            !isEmpty(this.state.data.selectedoutletIdentifier) &&
+            !isEmpty(this.state.data.selectedCategory) &&
+            isEmpty(this.state.tableData) && (
+              <div className="col-6 mt-5">
+                <h6 className="heading">
+                  Sales of {this.state.data.selectedCategory} based on fat
+                  content
+                </h6>
+                <CategoryView
+                  data={this.state.data.overallSalesOfSelectedCategory}
+                />
+              </div>
+            )}
+          {!isEmpty(this.state.data.selectedoutletLocation) &&
+            !isEmpty(this.state.data.selectedoutletIdentifier) &&
+            !isEmpty(this.state.data.selectedCategory) &&
+            isEmpty(this.state.tableData) && (
+              <div className="col-6 mt-5">
+                <h6 className="heading">
+                  Top 5 Item Sales in {this.state.data.selectedCategory}
+                </h6>
+                <CategorySalesView data={this.state.data.categorysalesData} />
+              </div>
+            )}
+          {isEmpty(this.state.data.selectedoutletLocation) &&
+            isEmpty(this.state.data.selectedoutletIdentifier) &&
+            isEmpty(this.state.tableData) && (
+              <div className="col-12 mt-5">
+                <h6 className="heading">Stores By Location</h6>
+                <PieChart />
+              </div>
+            )}
+          {!isEmpty(this.state.data.selectedoutletIdentifier) &&
+            isEmpty(this.state.tableData) &&
+            isEmpty(this.state.data.selectedCategory) && (
+              <div className="col-12 mt-5">
+                <h6 className="heading">
+                  Total sales based on categories in{" "}
+                  {this.state.data.selectedoutletIdentifier}
+                </h6>
+                <OutletOverview
+                  data={this.state.data.overallSalesOfSelectedOutlet}
+                />
+              </div>
+            )}
 
-        {!isEmpty(this.state.tableData) && (
-          <div className="col-12 mt-5">
-        
-            <h6 className="heading">Details for {this.state.value}</h6>
-            
-            <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Fat Content</th>
-              <th>Item Identifier</th>
-              <th>MRP</th>
-              <th>Outlet Sales</th>
-              <th>Item Type</th>
-              <th>Item Visibility</th>
-              <th>Item Weight</th>
-              <th>Outlet Estd Year</th>
-              <th>Outlet Identifier</th>
-              <th>Outlet Location Type</th>
-              <th>Outlet Size</th>
-              <th>Outlet Type</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            
-          {this.state.tableData.map((value, index) => {
-                return <tr>
-                <td>{value.Item_Fat_Content}</td>
-                <td>{value.Item_Identifier}</td>
-                <td>${value.Item_MRP}</td>
-                <td>${value.Item_Outlet_Sales}</td>
-                <td>{value.Item_Type}</td>
-                <td>{value.Item_Visibility}</td>
-                <td>{value.Item_Weight}</td>
-                <td>{value.Outlet_Establishment_Year}</td>
-                <td>{value.Outlet_Identifier}</td>
-                <td>{value.Outlet_Location_Type}</td>
-                <td>{value.Outlet_Size}</td>
-                <td>{value.Outlet_Type}</td>
-                <td> <button class="btn btn-success" title="Click here to compare item sales across various Outlets" onClick={this.searchsData}> Compare</button></td>
-              </tr>
-                
-              })}
-          </tbody>
-        </Table>
-       
-          </div>
-          
-        )}
-        {!isEmpty(this.state.itemsalesData) && (
-          <div className="col-12 mt-5">
-            <h6 className="heading">{this.state.value} sales across outlets</h6>
-            <Itemsales data={this.state.itemsalesData} />
-          </div>
-          
-        )}
+          {!isEmpty(this.state.tableData) &&
+            !isEmpty(this.state.data.selectedoutletIdentifier) &&
+            !isEmpty(this.state.data.selectedoutletLocation) &&
+            !isEmpty(this.state.data.selectedCategory) &&
+            !isEmpty(this.state.value) && (
+              <div className="col-12 mt-5">
+                <h6 className="heading">Details for {this.state.value}</h6>
+
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>Fat Content</th>
+                      <th>Item Identifier</th>
+                      <th>MRP</th>
+                      <th>Outlet Sales</th>
+                      <th>Item Type</th>
+                      <th>Item Visibility</th>
+                      <th>Item Weight</th>
+                      <th>Outlet Estd Year</th>
+                      <th>Outlet Identifier</th>
+                      <th>Outlet Location Type</th>
+                      <th>Outlet Size</th>
+                      <th>Outlet Type</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.tableData.map((value, index) => {
+                      return (
+                        <tr>
+                          <td>{value.Item_Fat_Content}</td>
+                          <td>{value.Item_Identifier}</td>
+                          <td>${value.Item_MRP}</td>
+                          <td>${value.Item_Outlet_Sales}</td>
+                          <td>{value.Item_Type}</td>
+                          <td>{value.Item_Visibility}</td>
+                          <td>{value.Item_Weight}</td>
+                          <td>{value.Outlet_Establishment_Year}</td>
+                          <td>{value.Outlet_Identifier}</td>
+                          <td>{value.Outlet_Location_Type}</td>
+                          <td>{value.Outlet_Size}</td>
+                          <td>{value.Outlet_Type}</td>
+                          <td>
+                            {" "}
+                            <button
+                              class="btn btn-success"
+                              title="Click here to compare item sales across various Outlets"
+                              onClick={this.searchsData}
+                            >
+                              {" "}
+                              Compare
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </Table>
+              </div>
+            )}
+          {!isEmpty(this.state.itemsalesData) &&
+            !isEmpty(this.state.data.selectedoutletIdentifier) &&
+            !isEmpty(this.state.data.selectedoutletLocation) &&
+            !isEmpty(this.state.data.selectedCategory) &&
+            !isEmpty(this.state.value) && (
+              <div className="col-12 mt-5">
+                <h6 className="heading">
+                  {this.state.value} sales across outlets
+                </h6>
+                <Itemsales data={this.state.itemsalesData} />
+              </div>
+            )}
         </div>
-        
-      </div>     
-  
-  );
-   
-  
+      </div>
+    );
   }
 }
 export default Dashboard;
