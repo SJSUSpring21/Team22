@@ -28,7 +28,13 @@ class Predict extends React.Component {
      
     },
     predictedValue: 0,
-    showPrediction: false
+    showPrediction: false,
+  };
+  componentDidMount() {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    if (!isLoggedIn) {
+      window.location = "/login";
+    }
   }
   handleOutletChangeFetchCategories = async (e) => {
     const data = { ...this.state.data };

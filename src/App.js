@@ -1,93 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { addDays } from "date-fns";
+import React from "react";
 import { GoogleCharts } from "google-charts";
 import NavBar from "./components/navBar";
 import Dashboard from "./components/dashboard";
-import Login from "./components/login"
+import Login from "./components/login";
 import "./App.css";
-import { Route, Link, Switch, Router} from "react-router-dom";
+import { Route, Link, Switch, Router } from "react-router-dom";
 
 import Predict from "./components/Predict";
 
 function App() {
   let arr = [];
-
-  const selectionRange = {
-    startDate: new Date(),
-    endDate: new Date(),
-    key: "selection",
-  };
-
-  const [state, setState] = useState([
-    {
-      startDate: new Date(),
-      endDate: addDays(new Date(), 4),
-      key: "selection",
-    },
-  ]);
-
-  const [passwords] = useState( [{
-    "email":"admin@gmail.com",
-    "password": "admin"
-  },{
-    "email":"vaibhav@gmail.com",
-    "password": "Vaibhav135"
-  },
-  {
-    "email":"kesiya@gmail.com",
-    "password": "kesiya"
-  },
-  {
-    "email":"sayali@gmail.com",
-    "password": "sayali"
-  },
-  {
-    "email":"lekha@gmail.com",
-    "password": "lekha"
-  }])
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoggedIn, setLoggedIn] = useState(false);
-
-  const onChange =(e) => {
-    if(e.target.name === "email"){
-      setEmail(e.target.value);
-    }else{
-      setPassword(e.target.value)
-    }
-  }
-
-  const onSubmit =(e) => {
-    e.preventDefault();
-
-    const userData = {
-      email,
-      password,
-    };
-    for (var i=0; i<passwords.length; i++) { 
-        if (JSON.stringify(passwords[i]) === JSON.stringify(userData) ) {
-                setLoggedIn(true);
-         }
-   }
-}
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const email = localStorage.getItem("email");
   return (
     <div className="App">
-       
-      {isLoggedIn
-       ? 
-      <React.Fragment>
-        <NavBar email={email} isLoggedIn = {isLoggedIn}  setLoggedIn = {setLoggedIn}/> 
-       
-       <Route exact path="/" component={Dashboard} />
-      <Route exact path="/predict" component={Predict} />
-</React.Fragment>
-      :
-      <React.Fragment>
-        <NavBar email={email} isLoggedIn = {isLoggedIn} />
-        <Login email={email} password={password} onChange={onChange} onSubmit={onSubmit}/>
-      </React.Fragment> 
-     }
+      <NavBar isLoggedIn={isLoggedIn} email={email} />
+      <Switch>
+        <Route exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/predict" component={Predict} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/" component={Dashboard} />
+      </Switch>
     </div>
   );
   function toggleButtonState() {
@@ -128,9 +61,6 @@ function App() {
       isStacked: true,
     };
     pie_1_chart.draw(data, options);
-  }
-  function handleSelect(date) {
-    console.log(date); // native Date object
   }
 }
 

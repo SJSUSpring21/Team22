@@ -3,8 +3,8 @@ import Select from "./common/Select";
 import PieChart from "./pieChart";
 import { isEmpty } from "lodash";
 import OutletOverview from "../components/outletOverview";
-import Autocomplete from 'react-autocomplete'
-import Table from 'react-bootstrap/Table'
+import Autocomplete from "react-autocomplete";
+import Table from "react-bootstrap/Table";
 import Itemsales from "../components/itemsales";
 import TierOverview from "../components/tierOverview";
 import CategoryView from "../components/CategoryView";
@@ -13,42 +13,25 @@ import CategorySalesView from "../components/categorysales";
 var tier1_outlets = ["OUT049", "OUT046", "OUT019"];
 var tier2_outlets = ["OUT045", "OUT035", "OUT017"];
 var tier3_outlets = ["OUT027", "OUT013", "OUT018", "OUT010"];
-const tableData = [{
-  "id": "1",
-  "name": "Ghost in The Wires",
-  "author": "Kevin Mitnick",
-  "released": "08/15/2011"
-},
-{
-  "id": "2",
-  "name": "Console Wars",
-  "author": "Blake J. Harris",
-  "released": "05/13/2014"
-},
-{
-  "id": "3",
-  "name": "The Phoenix Project",
-  "author": "Gene Kim, Kevin Behr, George Spafford",
-  "released": "12/01/2017"
-}]
-var categories = [
-  "Snack Foods",
-  "Fruits and Vegetables",
-  ,
-  "Household",
-  "Frozen Foods",
-  "Dairy",
-  "Baking Goods",
-  "Canned",
-  "Meat",
-  "Health and Hygiene",
-  "Soft Drinks",
-  "Others",
-  "Breads",
-  "Breakfast",
-  "Hard Drinks",
-  "Seafood",
-  "Starchy Foods",
+const tableData = [
+  {
+    id: "1",
+    name: "Ghost in The Wires",
+    author: "Kevin Mitnick",
+    released: "08/15/2011",
+  },
+  {
+    id: "2",
+    name: "Console Wars",
+    author: "Blake J. Harris",
+    released: "05/13/2014",
+  },
+  {
+    id: "3",
+    name: "The Phoenix Project",
+    author: "Gene Kim, Kevin Behr, George Spafford",
+    released: "12/01/2017",
+  },
 ];
 class Dashboard extends React.Component {
   state = {
@@ -69,6 +52,13 @@ class Dashboard extends React.Component {
     categorysalesData : []
   };
   baseState = { ...this.state };
+
+  componentDidMount() {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    if (!isLoggedIn) {
+      window.location = "/login";
+    }
+  }
 
   handleOutletChangeFetchCategories = async (e) => {
     const data = { ...this.state.data };
@@ -155,7 +145,7 @@ class Dashboard extends React.Component {
     }
   };
   handleCategoryLevelData = async (e) => {
-    let currVal = e.currentTarget.value
+    let currVal = e.currentTarget.value;
     const data = { ...this.state.data };
     data[e.currentTarget.name] = currVal;
     const requestOptions = {
