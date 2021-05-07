@@ -2,6 +2,7 @@ import time
 from flask import Flask, request
 import json
 import pickle
+import numpy as np
 app = Flask(__name__)
 
 @app.route('/time')
@@ -254,7 +255,7 @@ def getprediction():
     print(input)
     
     value = PredictSales(input)
-    
+    value = np.exp(value) - 1
     
     print(value)
     return{

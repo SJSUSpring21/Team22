@@ -229,6 +229,7 @@ class Predict extends React.Component {
         <div className="row col-12">
 
           <div className="slidecontainer" style={{ width: '100%' }}>
+          <h4> <Badge variant="success">  Item Visibility</Badge> </h4>
             <input type="range" min="0" max="1" step={0.0001} value={this.state.data.itemVisibility} style={{ width: '30%' }} className="slider" name="itemVisibility" onChange={this.handleSelect} />
             <p>  <input type="number" placeholder="Enter Item Visibility" name="itemVisibility" value={this.state.data.itemVisibility} onChange={this.handleSelect} /> </p>
           </div>
@@ -243,7 +244,7 @@ class Predict extends React.Component {
 
         <div className="row col-12" style={{paddingLeft: '35%', paddingTop: '2%'}} >
           {this.state.showPrediction && <Alert variant='success'>
-       Predicted Sales for item {this.state.data.selectedItem} is {(this.state.predictedValue*100).toFixed(4)} thousand
+       Predicted Sales for item {this.state.data.selectedItem} is {(this.state.predictedValue).toFixed(4)} thousand
   </Alert>}
         
         </div>
