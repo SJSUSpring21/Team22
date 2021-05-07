@@ -11,10 +11,17 @@ import $ from 'jquery';
 import Popper from 'popper.js';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
+import {BrowserRouter} from "react-router-dom";
+import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
+
+
 
 ReactDOM.render(
   <React.StrictMode>
+   <BrowserRouter>
+    
     <App />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

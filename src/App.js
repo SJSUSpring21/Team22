@@ -5,6 +5,9 @@ import NavBar from "./components/navBar";
 import Dashboard from "./components/dashboard";
 import Login from "./components/login"
 import "./App.css";
+import { Route, Link, Switch, Router} from "react-router-dom";
+
+import Predict from "./components/Predict";
 
 function App() {
   let arr = [];
@@ -75,7 +78,10 @@ function App() {
        ? 
       <React.Fragment>
         <NavBar email={email} isLoggedIn = {isLoggedIn}  setLoggedIn = {setLoggedIn}/> 
-      <Dashboard /></React.Fragment>
+       
+       <Route exact path="/" component={Dashboard} />
+      <Route exact path="/predict" component={Predict} />
+</React.Fragment>
       :
       <React.Fragment>
         <NavBar email={email} isLoggedIn = {isLoggedIn} />

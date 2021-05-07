@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 
 
@@ -57,15 +58,19 @@ export const NavBar = (props) => {
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-              <li class="nav-item active">
-                <a class="nav-link" href="#">
-                  Sales <span class="sr-only">(current)</span>
-                </a>
+            <li class="nav-item active">
+              <div className="nav-link" href="">
+                  <Link to="/">Home</Link>
+                </div>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
-                  Predict
-                </a>
+              <div className="nav-link" href="">
+                  <Link to="/predict">
+                    Predict
+              </Link>
+
+                </div>
+
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">
