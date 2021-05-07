@@ -126,14 +126,14 @@ class Predict extends React.Component {
       outletLocation: data.outletLocation
     });
     console.log(requestJson);
-    debugger;
+  
 
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: requestJson,
     };
-    debugger;
+  
 
     let response = await fetch("/getPrediction", requestOptions);
     response = await response.json();
@@ -162,7 +162,7 @@ class Predict extends React.Component {
       <div style={{ paddingTop: '5%', paddingBottom: '5%' }}>
         <div className=" row container-fluid col-12">
           <div className="col-4">
-            <div> <h4><Badge variant="primary">
+            <div> <h4><Badge variant="success">
               Tier for Store
   </Badge> </h4></div>
             <Select
@@ -174,7 +174,7 @@ class Predict extends React.Component {
             />
           </div>
           <div className="col-4">
-            <div> <h4><Badge variant="primary">
+            <div> <h4><Badge variant="success">
               Outlet Name
   </Badge></h4></div>
             <Select
@@ -187,7 +187,7 @@ class Predict extends React.Component {
 
           </div>
           <div className="col-4">
-            <div> <h4> <Badge variant="primary">
+            <div> <h4> <Badge variant="success">
               Category of Product
   </Badge> </h4> </div>
             <Select
@@ -201,7 +201,7 @@ class Predict extends React.Component {
         </div>
         <div className=" row container-fluid col-12">
           <div className="col-4">
-            <div> <h4> <Badge variant="primary">  Item Number</Badge> </h4></div>
+            <div> <h4> <Badge variant="success">  Item Number</Badge> </h4></div>
             <Select
               name="selectedItem"
               value={this.state.data.selectedItem}
@@ -210,11 +210,11 @@ class Predict extends React.Component {
               default="Select Items" />
           </div>
           <div className="col-4">
-            <h4> <Badge variant="primary">  Item Weight</Badge> </h4>
+            <h4> <Badge variant="success">  Item Weight</Badge> </h4>
             <input className="form-select my-3" type="number" placeholder="Enter Item Weight" name="itemWeight" value={this.state.data.itemWeight} onChange={this.handleSelect} />
           </div>
           <div className="col-4">
-            <h4> <Badge variant="primary">  Item Price</Badge> </h4>
+            <h4> <Badge variant="success">  Item Price</Badge> </h4>
             <input className="form-select my-3" type="number" placeholder="Enter Item Price" name="itemPrice" value={this.state.data.itemPrice} onChange={this.handleSelect} />
           </div>
 
@@ -235,9 +235,9 @@ class Predict extends React.Component {
           <button className="btn btn-success btn-lg" onClick={this.callPredict}> Predict </button>
         </div>
 
-        <div className="row col-12" style={{ paddingLeft: '47%' }}>
+        <div className="row col-12" style={{paddingLeft: '35%', paddingTop: '2%'}} >
           {this.state.showPrediction && <Alert variant='success'>
-       Predicted Sales for item {this.state.selectedItem} is {this.state.predictedValue}
+       Predicted Sales for item {this.state.data.selectedItem} is {(this.state.predictedValue*100).toFixed(4)} thousand
   </Alert>}
         
         </div>

@@ -213,7 +213,7 @@ def getprediction():
         if i['Item_Identifier'] == request.json['itemNumber']:
             a = i
     f.close()
-    print(a['Item_Type'])
+    print(a)
     # itemType = itemTypeMapping[a['Item_Type']]
     outletYears = 2013 - int(a['Outlet_Establishment_Year'])
     # outlet = outletMapping[a['Outlet_Identifier']]
@@ -254,6 +254,7 @@ def getprediction():
     print(input)
     
     value = PredictSales(input)
+    
     
     print(value)
     return{
