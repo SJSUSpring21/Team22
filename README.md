@@ -10,7 +10,7 @@
 
 ### Architecture Diagram
 ![272dia](https://github.com/SJSUSpring21/Team22/blob/master/272Project%20Diagram.jpg)
-![AppLogo](https://github.com/SJSUSpring21/Team22/blob/master/public/AppLogo.jpeg)
+![AppLogo](https://github.com/SJSUSpring21/Team22/blob/master/FrontEnd/public/AppLogo.jpeg)
 
 
 
