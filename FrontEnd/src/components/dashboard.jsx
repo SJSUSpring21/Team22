@@ -68,7 +68,7 @@ class Dashboard extends React.Component {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ outlet: e.currentTarget.value }),
     };
-    let response = await fetch("http://13.59.56.212:5000/getOutletOverview", requestOptions);
+    let response = await fetch("http://18.116.237.37:5000/getOutletOverview", requestOptions);
     response = await response.json();
     data.overallSalesOfSelectedOutlet = response;
     data.selectedCategory = "";
@@ -87,7 +87,7 @@ class Dashboard extends React.Component {
         "outlet": this.state.data.selectedoutletIdentifier
       }),
     };
-    let response = await fetch("http://13.59.56.212:5000/getitemdetailbasedOnitem", requestOptions);
+    let response = await fetch("http://18.116.237.37:5000/getitemdetailbasedOnitem", requestOptions);
     response = await response.json();
     console.log(response)
     let tableData = response.data
@@ -101,7 +101,7 @@ class Dashboard extends React.Component {
         "Item_no": this.state.value,
       }),
     };
-    let response = await fetch("http://13.59.56.212:5000/compareitemsalesacrossoutlets", requestOptions);
+    let response = await fetch("http://18.116.237.37:5000/compareitemsalesacrossoutlets", requestOptions);
     response = await response.json();
     let itemsalesData = [
       ['Outlet', 'Sales']
@@ -123,7 +123,7 @@ class Dashboard extends React.Component {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ tier: e.currentTarget.value }),
     };
-    let response = await fetch("http://13.59.56.212:5000/getTierLevelOverview", requestOptions);
+    let response = await fetch("http://18.116.237.37:5000/getTierLevelOverview", requestOptions);
     response = await response.json();
     data.overallSalesOfSelectedTier = response;
     data.selectedCategory = "";
@@ -156,7 +156,7 @@ class Dashboard extends React.Component {
         category: currVal,
       }),
     };
-    let response = await fetch("http://13.59.56.212:5000/getItemFatContent", requestOptions);
+    let response = await fetch("http://18.116.237.37:5000/getItemFatContent", requestOptions);
     response = await response.json();
     console.log(response);
     data.overallSalesOfSelectedCategory = response;
@@ -170,7 +170,7 @@ class Dashboard extends React.Component {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ category: currVal, outlet: this.state.data.selectedoutletIdentifier }),
     };
-    let responseTwo = await fetch("http://13.59.56.212:5000/getitemnoBasedOnCategory", requestOptionsTwo);
+    let responseTwo = await fetch("http://18.116.237.37:5000/getitemnoBasedOnCategory", requestOptionsTwo);
     responseTwo = await responseTwo.json();
     let arr = [];
     for (let i = 0; i < responseTwo.data.length; i++) {

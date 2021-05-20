@@ -45,7 +45,7 @@ class Predict extends React.Component {
       body: JSON.stringify({ outlet: e.currentTarget.value }),
     };
     let response = await fetch(
-      "http://13.59.56.212:5000/getcategoryBasedOnOutletIdentifier",
+      "http://18.116.237.37:5000/getcategoryBasedOnOutletIdentifier",
       requestOptions
     );
     response = await response.json();
@@ -64,7 +64,7 @@ class Predict extends React.Component {
       body: JSON.stringify({ category: e.currentTarget.value }),
     };
     let response = await fetch(
-      "http://13.59.56.212:5000/getitemsBasedOnCategory",
+      "http://18.116.237.37:5000/getitemsBasedOnCategory",
       requestOptions
     );
     response = await response.json();
@@ -105,7 +105,7 @@ class Predict extends React.Component {
       body: JSON.stringify({ itemNumber: e.currentTarget.value }),
     };
     let response = await fetch(
-      "http://13.59.56.212:5000/getItemDetails",
+      "http://18.116.237.37:5000/getItemDetails",
       requestOptions
     );
     response = await response.json();
@@ -141,7 +141,7 @@ class Predict extends React.Component {
     };
   
 
-    let response = await fetch("http://13.59.56.212:5000/getPrediction", requestOptions);
+    let response = await fetch("http://18.116.237.37:5000/getPrediction", requestOptions);
     response = await response.json();
 
     console.log(response);

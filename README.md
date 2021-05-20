@@ -9,8 +9,8 @@
 ### dataset - https://www.kaggle.com/brijbhushannanda1979/bigmart-sales-data
 
 ### Architecture Diagram
-![272dia](https://user-images.githubusercontent.com/64019111/117515876-644bda00-af4c-11eb-8391-c27ea1ada80a.jpg)
-![AppLogo](https://github.com/SJSUSpring21/Team22/blob/master/public/AppLogo.jpeg)
+![272dia](https://github.com/SJSUSpring21/Team22/blob/master/272Project%20Diagram.jpg)
+![AppLogo](https://github.com/SJSUSpring21/Team22/blob/master/FrontEnd/public/AppLogo.jpeg)
 
 
 
